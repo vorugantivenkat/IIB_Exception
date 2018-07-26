@@ -1,0 +1,70 @@
+!SESSION 2018-07-26 16:53:49.360 -----------------------------------------------
+eclipse.buildId=unknown
+java.fullversion=JRE 1.7.0 IBM J9 2.6 Windows 7 x86-32 20120809_118929 (JIT enabled, AOT enabled)
+J9VM - R26_Java726_SR2_20120809_0948_B118929
+JIT  - r11.b01_20120808_24925
+GC   - R26_Java726_SR2_20120809_0948_B118929
+J9CL - 20120809_118929
+BootLoader constants: OS=win32, ARCH=x86, WS=win32, NL=en_US
+Framework arguments:  -noupdate -application com.ibm.etools.mft.bar.cmdline.mqsicreatebar -b C:\Exception_Handling_Configuration\test.bar -a test -deployAsSource -wmbtData
+Command-line arguments:  -noupdate -os win32 -ws win32 -arch x86 -application com.ibm.etools.mft.bar.cmdline.mqsicreatebar -data C:\Exception_Handling_Configuration -b C:\Exception_Handling_Configuration\test.bar -a test -deployAsSource -wmbtData
+
+!ENTRY org.eclipse.core.jobs 4 2 2018-07-26 16:53:55.160
+!MESSAGE An internal error occurred during: "Initializing User-defined Node framework...".
+!STACK 0
+java.lang.ExceptionInInitializerError
+	at java.lang.J9VMInternals.initialize(Unknown Source)
+	at com.ibm.etools.gef.emf.utility.impl.TranslatableStringImpl.getBundle(Unknown Source)
+	at com.ibm.etools.mft.node.UDNUIUtils.<clinit>(Unknown Source)
+	at java.lang.J9VMInternals.initializeImpl(Native Method)
+	at java.lang.J9VMInternals.initialize(Unknown Source)
+	at com.ibm.etools.mft.node.NodeToolingPlugin$RemainingInitializationJob.run(Unknown Source)
+	at org.eclipse.core.internal.jobs.Worker.run(Unknown Source)
+Caused by: java.lang.NullPointerException
+	at org.eclipse.pde.internal.core.target.AbstractBundleContainer.resolveVariables(Unknown Source)
+	at org.eclipse.pde.internal.core.target.ProfileBundleContainer.resolveHomeLocation(Unknown Source)
+	at org.eclipse.pde.internal.core.target.ProfileBundleContainer.getLocation(Unknown Source)
+	at org.eclipse.pde.internal.core.target.AbstractBundleContainer.getVMArguments(Unknown Source)
+	at org.eclipse.pde.internal.core.target.TargetPlatformService.newDefaultTargetDefinition(Unknown Source)
+	at org.eclipse.pde.internal.core.PluginModelManager.initDefaultTargetPlatformDefinition(Unknown Source)
+	at org.eclipse.pde.internal.core.PluginModelManager.initializeTable(Unknown Source)
+	at org.eclipse.pde.internal.core.PluginModelManager.getExternalModels(Unknown Source)
+	at com.ibm.etools.mft.uri.udn.UDNUtils.populateExternalModels(Unknown Source)
+	at com.ibm.etools.mft.uri.udn.UDNUtils.<clinit>(Unknown Source)
+	at java.lang.J9VMInternals.initializeImpl(Native Method)
+	... 7 more
+!SESSION 2018-07-26 16:55:10.706 -----------------------------------------------
+eclipse.buildId=unknown
+java.fullversion=JRE 1.7.0 IBM J9 2.6 Windows 7 x86-32 20120809_118929 (JIT enabled, AOT enabled)
+J9VM - R26_Java726_SR2_20120809_0948_B118929
+JIT  - r11.b01_20120808_24925
+GC   - R26_Java726_SR2_20120809_0948_B118929
+J9CL - 20120809_118929
+BootLoader constants: OS=win32, ARCH=x86, WS=win32, NL=en_US
+Framework arguments:  -noupdate -application com.ibm.etools.mft.bar.cmdline.mqsicreatebar -b C:\Exception_Handling_Configuration\test.bar -a Exception_Handling_Configuration -deployAsSource -wmbtData
+Command-line arguments:  -noupdate -os win32 -ws win32 -arch x86 -application com.ibm.etools.mft.bar.cmdline.mqsicreatebar -data C:\Exception_Handling_Configuration -b C:\Exception_Handling_Configuration\test.bar -a Exception_Handling_Configuration -deployAsSource -wmbtData
+
+!ENTRY org.eclipse.core.jobs 4 2 2018-07-26 16:55:13.852
+!MESSAGE An internal error occurred during: "Initializing User-defined Node framework...".
+!STACK 0
+java.lang.ExceptionInInitializerError
+	at java.lang.J9VMInternals.initialize(Unknown Source)
+	at com.ibm.etools.gef.emf.utility.impl.TranslatableStringImpl.getBundle(Unknown Source)
+	at com.ibm.etools.mft.node.UDNUIUtils.<clinit>(Unknown Source)
+	at java.lang.J9VMInternals.initializeImpl(Native Method)
+	at java.lang.J9VMInternals.initialize(Unknown Source)
+	at com.ibm.etools.mft.node.NodeToolingPlugin$RemainingInitializationJob.run(Unknown Source)
+	at org.eclipse.core.internal.jobs.Worker.run(Unknown Source)
+Caused by: java.lang.NullPointerException
+	at org.eclipse.pde.internal.core.target.AbstractBundleContainer.resolveVariables(Unknown Source)
+	at org.eclipse.pde.internal.core.target.ProfileBundleContainer.resolveHomeLocation(Unknown Source)
+	at org.eclipse.pde.internal.core.target.ProfileBundleContainer.getLocation(Unknown Source)
+	at org.eclipse.pde.internal.core.target.AbstractBundleContainer.getVMArguments(Unknown Source)
+	at org.eclipse.pde.internal.core.target.TargetPlatformService.newDefaultTargetDefinition(Unknown Source)
+	at org.eclipse.pde.internal.core.PluginModelManager.initDefaultTargetPlatformDefinition(Unknown Source)
+	at org.eclipse.pde.internal.core.PluginModelManager.initializeTable(Unknown Source)
+	at org.eclipse.pde.internal.core.PluginModelManager.getExternalModels(Unknown Source)
+	at com.ibm.etools.mft.uri.udn.UDNUtils.populateExternalModels(Unknown Source)
+	at com.ibm.etools.mft.uri.udn.UDNUtils.<clinit>(Unknown Source)
+	at java.lang.J9VMInternals.initializeImpl(Native Method)
+	... 7 more

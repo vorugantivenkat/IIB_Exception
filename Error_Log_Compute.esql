@@ -1,0 +1,80 @@
+
+CREATE COMPUTE MODULE Error_Log_Compute
+	DECLARE LOG4JPATH EXTERNAL CHARACTER;
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		-- CALL CopyMessageHeaders();
+		CALL CopyEntireMessage();
+		RETURN FALSE;
+	END;
+
+	CREATE PROCEDURE CopyMessageHeaders() BEGIN
+		DECLARE I INTEGER 1;
+		DECLARE J INTEGER;
+		SET J = CARDINALITY(InputRoot.*[]);
+		WHILE I < J DO
+			SET OutputRoot.*[I] = InputRoot.*[I];
+			SET I = I + 1;
+		END WHILE;
+	END;
+
+	CREATE PROCEDURE CopyEntireMessage() BEGIN
+		SET OutputRoot = InputRoot;
+		IF Environment.Variables.Count IS NULL THEN
+			IF CONTAINS(Environment.Variables.TraceFileExc.exceptionDesc,'DFDL') OR CONTAINS(Environment.Variables.TraceFileExc.exceptionDesc,'XML')THEN
+				SET Environment.Variables.DestinationDirectory = Environment.Variables.Error_FORMAT;
+				SET Environment.Variables.Fail = Environment.Variables.IIB_FAIL||'/ERROR_FORMAT';
+
+			ELSE
+				SET Environment.Variables.DestinationDirectory = Environment.Variables.Error_DB;
+				SET Environment.Variables.Fail = Environment.Variables.IIB_FAIL||'/ERROR_DB';
+			END IF;
+			
+			SET Environment.Variables.Format = NULL;
+			SET Environment.Variables.TraceFileExc.exceptionDesc1 = getExceptionDesc(InputRoot, OutputRoot, InputExceptionList);
+
+			SET Environment.Variables.Count = 4;
+			SET Environment.Variables.Operation = 'ERRORFTP';
+			CALL sftp(LOG4JPATH, Environment.Variables.destinationIP, Environment.Variables.DestinationDirectory, InputRoot, InputExceptionList, Environment,
+			OutputLocalEnvironment, InputLocalEnvironment, OutputRoot);
+			SET Environment.Variables.Count = 4;
+			SET Environment.Variables.Operation = 'LOGFTP';
+			DECLARE domainFldName CHARACTER FIELDNAME(InputBody);
+			IF domainFldName = 'DFDL' THEN
+				SET OutputRoot.Properties.MessageType = NULL;
+				SET OutputRoot.DFDL = NULL;
+			ELSEIF domainFldName = 'XMLNSC' THEN
+				SET OutputRoot.Properties.MessageType = NULL;
+				SET OutputRoot.XMLNSC = NULL;
+			ELSEIF domainFldName = 'SOAP' THEN
+				SET OutputRoot.Properties.MessageType = NULL;
+				SET OutputRoot.SOAP = NULL;
+			ELSEIF domainFldName = 'BLOB' THEN
+				SET OutputRoot.Properties.MessageType = NULL;
+				SET OutputRoot.BLOB = NULL;
+			END IF;
+			DECLARE outRef REFERENCE TO OutputRoot.BLOB.BLOB;
+			CREATE LASTCHILD OF OutputRoot AS outRef DOMAIN 'BLOB';
+			CREATE LASTCHILD OF outRef DOMAIN 'BLOB' VALUE (CAST(Environment.Variables.TraceFileExc.exceptionDesc1 AS BLOB CCSID 1208));
+			IF CONTAINS(Environment.Variables.TraceFileExc.exceptionDesc1,'DFDL')  OR CONTAINS(Environment.Variables.TraceFileExc.exceptionDesc1,'XML') THEN
+				
+				SET Environment.Variables.DestinationDirectory = Environment.Variables.LOG_FORMAT;
+				SET Environment.Variables.Fail = Environment.Variables.IIB_FAIL||'/LOG_FORMAT';
+				
+			ELSE
+				
+				SET Environment.Variables.DestinationDirectory = Environment.Variables.LOG_DB;
+				SET Environment.Variables.Fail = Environment.Variables.IIB_FAIL||'/LOG_DB';
+			END IF;
+			
+			--SET OutputRoot.BLOB.BLOB = CAST(Environment.Variables.TraceFileExc.exceptionDesc AS BLOB CCSID 1208);
+			CALL sftp(LOG4JPATH, Environment.Variables.destinationIP , Environment.Variables.DestinationDirectory, InputRoot, InputExceptionList, Environment,
+			OutputLocalEnvironment, InputLocalEnvironment, OutputRoot);
+			
+		ELSE
+			
+			CALL sftp(LOG4JPATH, Environment.Variables.destinationIP , Environment.Variables.DestinationDirectory, InputRoot, InputExceptionList, Environment,
+			OutputLocalEnvironment, InputLocalEnvironment, OutputRoot);
+		END IF;
+	END;
+END MODULE;
